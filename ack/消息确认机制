@@ -1,0 +1,25 @@
+### 设置全局消息确认机制：手动模式
+spring:
+  rabbitmq:
+    listener:
+      simple:
+        acknowledge-mode: manual
+
+###测试消费者不手动确认
+消费者会获取消息并进行消费，但消费后没有确认，导致队列中消息无法被真正地消费，所以生产者生产的消息会越积越多
+消费者每次启动都会重复消费以往的消息
+
+###消息确认
+channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+消息确认, false只确认当前一个消息收到，true确认所有consumer获得的消息
+
+###消息丢弃
+//丢弃消息, 第二个参数：是否批量；第三个参数：被拒绝的是否重新入队列
+channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, false);
+//丢弃消息，第二个参数：被拒绝的是否重新入队列；跟basicNack的区别在于basicReject只能处理一条消息
+channel.basicReject(message.getMessageProperties().getDeliveryTag(), false);
+
+###消息消费时异常
+在消费者里面制造异常
+int i = 1 / 0;
+此时消息还会在队列中不会被消费
