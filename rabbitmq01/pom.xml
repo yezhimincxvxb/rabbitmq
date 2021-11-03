@@ -10,10 +10,10 @@
         <relativePath>../pom.xml</relativePath> <!-- lookup parent from repository -->
     </parent>
 
-    <artifactId>base</artifactId>
+    <artifactId>rabbitmq01</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>base</name>
+    <name>rabbitmq01</name>
     <description>Demo project for Spring Boot</description>
 
     <dependencies>

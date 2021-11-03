@@ -1,15 +1,13 @@
-package com.yzm.base;
+package com.yzm.rabbitmq01;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.scheduling.annotation.EnableScheduling;
 
-@EnableScheduling
 @SpringBootApplication
-public class BaseApplication {
+public class Rabbitmq01Application {
 
     public static void main(String[] args) {
-        SpringApplication.run(BaseApplication.class, args);
+        SpringApplication.run(Rabbitmq01Application.class, args);
     }
 
 }
