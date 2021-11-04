@@ -19,10 +19,7 @@
 
     <modules>
         <module>rabbitmq01</module>
-        <module>prefetch</module>
-        <module>fanout</module>
-        <module>direct</module>
-        <module>topic</module>
+        <module>rabbitmq02</module>
         <module>ack</module>
         <module>retry</module>
         <module>callback</module>
