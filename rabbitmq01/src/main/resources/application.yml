@@ -4,6 +4,7 @@ spring:
     host: 127.0.0.1
     username: guest
     password: guest
-#    listener:
-#      simple:
+    listener:
+      simple:
+        acknowledge-mode: auto
 #        prefetch: 1

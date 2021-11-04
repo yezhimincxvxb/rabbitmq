@@ -43,4 +43,5 @@ public class RabbitConfig {
         factory.setPrefetchCount(1);
         return factory;
     }
+
 }

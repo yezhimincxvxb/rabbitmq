@@ -3,12 +3,11 @@ package com.yzm.rabbitmq01.service;
 import com.yzm.rabbitmq01.config.RabbitConfig;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 
 /**
  * 消息生产者
  */
-@Component
+//@Component
 public class HelloSenderService {
 
     private final AmqpTemplate template;
