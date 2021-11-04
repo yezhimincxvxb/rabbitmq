@@ -19,7 +19,7 @@ Consumer：消息消费者，即消费方客户端，接收MQ转发的消息。
 5、消费者接收到消息。
 6、ack回复
 
-
+* map：arguments.put("x-message-ttl", 20 * 1000); // 设置 20s超时
 
 
 

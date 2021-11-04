@@ -10,11 +10,10 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @RabbitListener(queues = RabbitConfig.HELLO_WORLD)
-public class ReceiverService {
+public class HelloReceiverService {
 
     @RabbitHandler
-    public void receive(String message) {
+    public void helloReceive(String message) {
         System.out.println(" [ 消费者 ] Received ==> '" + message + "'");
     }
-
 }
