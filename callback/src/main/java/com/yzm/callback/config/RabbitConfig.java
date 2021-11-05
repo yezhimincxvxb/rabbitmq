@@ -19,7 +19,9 @@ public class RabbitConfig {
     @Bean("rabbit")
     public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
         RabbitTemplate template = new RabbitTemplate(connectionFactory);
+        //数据转换为json存入消息队列
         template.setMessageConverter(new Jackson2JsonMessageConverter());
+
         /* 若使用 confirm-callback 或 return-callback，需要配置
          * publisher-confirm-type: correlated
          * publisher-returns: true

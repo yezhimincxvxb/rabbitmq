@@ -8,8 +8,6 @@ import org.springframework.amqp.rabbit.annotation.QueueBinding;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-
 @Component
 public class ReceiverService {
 
@@ -18,7 +16,7 @@ public class ReceiverService {
             exchange = @Exchange(value = "topic.exchange", type = ExchangeTypes.TOPIC),
             key = {"topic.*.a", "topic.a.#"}
     ))
-    public void receiveA(Message message) throws IOException {
+    public void receiveA(Message message) {
         System.out.println(" [ 消费者@A号 ] Received ==> '" + new String(message.getBody()) + "'");
     }
 }
