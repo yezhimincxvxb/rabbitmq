@@ -20,8 +20,7 @@
     <modules>
         <module>rabbitmq01</module>
         <module>rabbitmq02</module>
-        <module>ack</module>
-        <module>retry</module>
+        <module>rabbitmq03</module>
         <module>callback</module>
         <module>channel</module>
     </modules>
