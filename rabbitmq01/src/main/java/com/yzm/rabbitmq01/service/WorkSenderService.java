@@ -18,9 +18,9 @@ public class WorkSenderService {
         this.template = template;
     }
 
-    @Scheduled(fixedDelay = 500, initialDelay = 10000)
+    @Scheduled(fixedDelay = 60 * 60 * 1000, initialDelay = 10000)
     public void workSend() {
-        if (count <= 30) {
+        while (count <= 20) {
             String message = "Hello.........." + count++;
             template.convertAndSend(RabbitConfig.WORK_QUEUE, message);
             System.out.println(" [ 生产者 ] Sent ==> '" + message + "'");

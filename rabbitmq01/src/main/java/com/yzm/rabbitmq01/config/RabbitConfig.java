@@ -1,5 +1,6 @@
 package com.yzm.rabbitmq01.config;
 
+import org.springframework.amqp.core.AcknowledgeMode;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -40,6 +41,9 @@ public class RabbitConfig {
     public RabbitListenerContainerFactory<SimpleMessageListenerContainer> prefetchOne(ConnectionFactory rabbitConnectionFactory) {
         SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
         factory.setConnectionFactory(rabbitConnectionFactory);
+        // 手动确认
+        //factory.setAcknowledgeMode(AcknowledgeMode.MANUAL);
+        // 设置prefetch
         factory.setPrefetchCount(1);
         return factory;
     }
