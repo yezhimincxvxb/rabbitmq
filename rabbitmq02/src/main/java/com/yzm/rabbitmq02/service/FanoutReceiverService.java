@@ -12,36 +12,24 @@ public class FanoutReceiverService {
     private int countB_2 = 1;
 
     @RabbitListener(queues = FanoutRabbitConfig.QUEUE_A)
-    public void receiveA(String message) {
-        try {
-            System.out.println(" [ 消费者@A号 ] Received ==> '" + message + "'");
-            Thread.sleep(1000);
-            System.out.println(" [ 消费者@A号 ] Dealt with：" + countA++);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void receiveA(String message) throws InterruptedException {
+        System.out.println(" [ 消费者@A号 ] Received ==> '" + message + "'");
+        Thread.sleep(1000);
+        System.out.println(" [ 消费者@A号 ] Dealt with：" + countA++);
     }
 
     @RabbitListener(queues = FanoutRabbitConfig.QUEUE_B)
-    public void receiveB(String message) {
-        try {
-            System.out.println(" [ 消费者@B号 ] Received ==> '" + message + "'");
-            Thread.sleep(1000);
-            System.out.println(" [ 消费者@B号 ] Dealt with：" + countB++);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void receiveB(String message) throws InterruptedException {
+        System.out.println(" [ 消费者@B号 ] Received ==> '" + message + "'");
+        Thread.sleep(1000);
+        System.out.println(" [ 消费者@B号 ] Dealt with：" + countB++);
     }
 
     @RabbitListener(queues = FanoutRabbitConfig.QUEUE_B)
-    public void receiveB_2(String message) {
-        try {
-            System.out.println(" [ 消费者@B_2号 ] Received ==> '" + message + "'");
-            Thread.sleep(2000);
-            System.out.println(" [ 消费者@B_2号 ] Dealt with：" + countB_2++);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void receiveB_2(String message) throws InterruptedException {
+        System.out.println(" [ 消费者@B_2号 ] Received ==> '" + message + "'");
+        Thread.sleep(2000);
+        System.out.println(" [ 消费者@B_2号 ] Dealt with：" + countB_2++);
     }
 
 }

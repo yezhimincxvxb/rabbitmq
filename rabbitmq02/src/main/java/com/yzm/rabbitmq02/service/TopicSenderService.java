@@ -9,17 +9,16 @@ import org.springframework.stereotype.Component;
 public class TopicSenderService {
 
     private final RabbitTemplate rabbitTemplate;
-    private int count = 0;
+    private int count = 1;
 
     public TopicSenderService(RabbitTemplate rabbitTemplate) {
         this.rabbitTemplate = rabbitTemplate;
     }
 
-    @Scheduled(fixedDelay = 500, initialDelay = 10000)
+    @Scheduled(fixedDelay = 60 * 60 * 1000, initialDelay = 10000)
     public void send_1() {
-        count++;
-        if (count <= 30) {
-            String message = "Hello.........." + count;
+        while (count <= 30) {
+            String message = "Hello.........." + count++;
             System.out.println(" [ 生产者 ] Sent ==> '" + message + "'");
             if (count % 3 == 0) {
                 // 一个单词yzm，可以匹配 topic.* 和 topic.#

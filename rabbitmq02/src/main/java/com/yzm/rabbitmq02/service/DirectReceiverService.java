@@ -12,35 +12,23 @@ public class DirectReceiverService {
     private int countD_2 = 1;
 
     @RabbitListener(queues = DirectRabbitConfig.QUEUE_C)
-    public void receiveC(String message) {
-        try {
-            System.out.println(" [ 消费者@C号 ] Received ==> '" + message + "'");
-            Thread.sleep(1000);
-            System.out.println(" [ 消费者@C号 ] Dealt with：" + countC++);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void receiveC(String message) throws InterruptedException {
+        System.out.println(" [ 消费者@C号 ] Received ==> '" + message + "'");
+        Thread.sleep(1000);
+        System.out.println(" [ 消费者@C号 ] Dealt with：" + countC++);
     }
 
     @RabbitListener(queues = DirectRabbitConfig.QUEUE_D)
-    public void receiveD(String message) {
-        try {
-            System.out.println(" [ 消费者@D号 ] Received ==> '" + message + "'");
-            Thread.sleep(1000);
-            System.out.println(" [ 消费者@D号 ] Dealt with：" + countD++);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void receiveD(String message) throws InterruptedException {
+        System.out.println(" [ 消费者@D号 ] Received ==> '" + message + "'");
+        Thread.sleep(1000);
+        System.out.println(" [ 消费者@D号 ] Dealt with：" + countD++);
     }
 
     @RabbitListener(queues = DirectRabbitConfig.QUEUE_D)
-    public void receiveD_2(String message) {
-        try {
-            System.out.println(" [ 消费者@D_2号 ] Received ==> '" + message + "'");
-            Thread.sleep(2000);
-            System.out.println(" [ 消费者@D_2号 ] Dealt with：" + countD_2++);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void receiveD_2(String message) throws InterruptedException {
+        System.out.println(" [ 消费者@D_2号 ] Received ==> '" + message + "'");
+        Thread.sleep(2000);
+        System.out.println(" [ 消费者@D_2号 ] Dealt with：" + countD_2++);
     }
 }
