@@ -21,6 +21,7 @@
         <module>rabbitmq01</module>
         <module>rabbitmq02</module>
         <module>rabbitmq03</module>
+        <module>rabbitmq04</module>
         <module>callback</module>
         <module>channel</module>
     </modules>

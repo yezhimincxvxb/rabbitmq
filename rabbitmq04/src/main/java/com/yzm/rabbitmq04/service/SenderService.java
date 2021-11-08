@@ -1,7 +1,7 @@
-package com.yzm.channel.service;
+package com.yzm.rabbitmq04.service;
 
 import com.rabbitmq.client.*;
-import com.yzm.channel.config.RabbitConfig;
+import com.yzm.rabbitmq04.config.RabbitConfig;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -13,12 +13,11 @@ import java.util.concurrent.TimeoutException;
 @Component
 public class SenderService {
 
-
     //    @Scheduled(fixedDelay = 60 * 60 * 1000, initialDelay = 5000)
     public void producerA() throws IOException, TimeoutException {
-        //1、获取到连接
+        //1、获取连接
         Connection connection = RabbitConfig.getConnection();
-        //2、从连接中创建通道，使用通道才能完成消息相关的操作
+        //2、创建通道，使用通道才能完成消息相关的操作
         Channel channel = connection.createChannel();
         /*
          * 3、声明队列
@@ -29,20 +28,20 @@ public class SenderService {
          * Map<String, Object> arguments 参数，可以设置一个队列的扩展参数，比如：可设置存活时间
          */
         channel.queueDeclare(RabbitConfig.QUEUE, true, false, false, null);
-        //4、消息内容
         /*
-         * 5、向指定的队列中发送消息
+         * 4、发送消息
          * exchange，交换机，如果不指定将使用mq的默认交换机（设置为""）
          * routingKey，路由key，交换机根据路由key来将消息转发到指定的队列，如果使用默认交换机，routingKey设置为队列的名称
          * props，向消费者传递的 消息属性(比如文本持久化)
          * body，消息内容
          */
-        for (int i = 1; i <= 20; i++) {
-            String message = "Hello World! " + i;
-            channel.basicPublish("", RabbitConfig.QUEUE, MessageProperties.PERSISTENT_TEXT_PLAIN, message.getBytes());
+        for (int i = 1; i <= 10; i++) {
+            String message = "Hello World!...... " + i;
             System.out.println(" [ Sent ] 消息内容 " + message);
+            channel.basicPublish("", RabbitConfig.QUEUE, MessageProperties.PERSISTENT_TEXT_PLAIN, message.getBytes());
         }
 
+        // 5、释放资源
         channel.close();
         connection.close();
     }
@@ -60,15 +59,17 @@ public class SenderService {
          *  internal 是否设置为内置交换机
          */
         channel.exchangeDeclare(RabbitConfig.FANOUT_EXCHANGE, BuiltinExchangeType.FANOUT, true, false, false, null);
+        // 声明队列
         channel.queueDeclare(RabbitConfig.FANOUT_QUEUE_A, true, false, false, null);
         channel.queueDeclare(RabbitConfig.FANOUT_QUEUE_B, true, false, false, null);
+        // 队列绑定交换机，不需要路由键，用空字符串表示
         channel.queueBind(RabbitConfig.FANOUT_QUEUE_A, RabbitConfig.FANOUT_EXCHANGE, "");
         channel.queueBind(RabbitConfig.FANOUT_QUEUE_B, RabbitConfig.FANOUT_EXCHANGE, "");
 
-        for (int i = 1; i <= 20; i++) {
-            String message = "Hello World! " + i;
-            channel.basicPublish(RabbitConfig.FANOUT_EXCHANGE, "", null, message.getBytes());
+        for (int i = 1; i <= 10; i++) {
+            String message = "Hello World!...... " + i;
             System.out.println(" [ Sent ] 消息内容 " + message);
+            channel.basicPublish(RabbitConfig.FANOUT_EXCHANGE, "", MessageProperties.PERSISTENT_TEXT_PLAIN, message.getBytes());
         }
 
         channel.close();
@@ -88,9 +89,9 @@ public class SenderService {
         channel.queueBind(RabbitConfig.DIRECT_QUEUE_A, RabbitConfig.DIRECT_EXCHANGE, "direct.a");
         channel.queueBind(RabbitConfig.DIRECT_QUEUE_B, RabbitConfig.DIRECT_EXCHANGE, "direct.a.b");
 
-        for (int i = 1; i <= 20; i++) {
+        for (int i = 1; i <= 10; i++) {
             String message = "Hello World! " + i;
-            if (i % 3 == 0) {
+            if (i % 2 == 0) {
                 channel.basicPublish(RabbitConfig.DIRECT_EXCHANGE, "direct.a", null, message.getBytes());
             } else {
                 channel.basicPublish(RabbitConfig.DIRECT_EXCHANGE, "direct.a.b", null, message.getBytes());
@@ -102,7 +103,7 @@ public class SenderService {
         connection.close();
     }
 
-    //    @Scheduled(fixedDelay = 60 * 60 * 1000, initialDelay = 5000)
+    @Scheduled(fixedDelay = 60 * 60 * 1000, initialDelay = 5000)
     public void producerD() throws IOException, TimeoutException {
         Connection connection = RabbitConfig.getConnection();
         Channel channel = connection.createChannel();
@@ -119,10 +120,10 @@ public class SenderService {
 
         for (int i = 1; i <= 30; i++) {
             String message = "Hello World! " + i;
-            if (i % 3 == 1) {
+            if (i % 3 == 0) {
                 channel.basicPublish(RabbitConfig.TOPIC_EXCHANGE, "topic.a.a", null, message.getBytes());
-            } else if (i % 3 == 2) {
-                channel.basicPublish(RabbitConfig.TOPIC_EXCHANGE, "topic.a.b", null, message.getBytes());
+            } else if (i % 3 == 1) {
+                channel.basicPublish(RabbitConfig.TOPIC_EXCHANGE, "topic.b.b", null, message.getBytes());
             } else {
                 channel.basicPublish(RabbitConfig.TOPIC_EXCHANGE, "topic.a.c", null, message.getBytes());
             }
@@ -164,7 +165,7 @@ public class SenderService {
         connection.close();
     }
 
-    @Scheduled(fixedDelay = 60 * 60 * 1000, initialDelay = 5000)
+    //    @Scheduled(fixedDelay = 60 * 60 * 1000, initialDelay = 5000)
     public void producerF() throws IOException, TimeoutException {
         Connection connection = RabbitConfig.getConnection();
         Channel channel = connection.createChannel();
