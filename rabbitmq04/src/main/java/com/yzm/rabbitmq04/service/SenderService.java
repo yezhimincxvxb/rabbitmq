@@ -1,13 +1,14 @@
 package com.yzm.rabbitmq04.service;
 
-import com.rabbitmq.client.*;
+import com.rabbitmq.client.BuiltinExchangeType;
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.MessageProperties;
 import com.yzm.rabbitmq04.config.RabbitConfig;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
 @Component
@@ -129,60 +130,6 @@ public class SenderService {
             }
             System.out.println(" [ Sent ] 消息内容 " + message);
         }
-
-        channel.close();
-        connection.close();
-    }
-
-    /*
-     * 消息到达交换机，但交换机没有绑定队列或没有匹配的队列时，正常会消息丢失
-     * 回调处理
-     * 使用备用交换机
-     */
-//    @Scheduled(fixedDelay = 60 * 60 * 1000, initialDelay = 5000)
-    public void producerE() throws IOException, TimeoutException {
-        Connection connection = RabbitConfig.getConnection();
-        Channel channel = connection.createChannel();
-
-        //定义交换机，不绑定任何队列
-        channel.exchangeDeclare(RabbitConfig.NO_QUEUE_EXCHANGE, BuiltinExchangeType.FANOUT, true, false, false, null);
-
-        String message = "Hello World!";
-        channel.basicPublish(RabbitConfig.NO_QUEUE_EXCHANGE, "confirm", true, false,
-                MessageProperties.PERSISTENT_BASIC, message.getBytes());
-        System.out.println(" [ Sent ] 消息内容 " + message);
-
-        //消息不可达，回调
-        channel.addReturnListener(new ReturnListener() {
-            @Override
-            public void handleReturn(int replyCode, String replyText, String exchange, String routingKey,
-                                     AMQP.BasicProperties properties, byte[] body) throws IOException {
-                System.out.println("没有到达目的地的消息：：" + new String(body));
-            }
-        });
-
-        channel.close();
-        connection.close();
-    }
-
-    //    @Scheduled(fixedDelay = 60 * 60 * 1000, initialDelay = 5000)
-    public void producerF() throws IOException, TimeoutException {
-        Connection connection = RabbitConfig.getConnection();
-        Channel channel = connection.createChannel();
-
-        //定义交换机，绑定备用交换机
-        Map<String, Object> args = new HashMap<>();
-        args.put("alternate-exchange", RabbitConfig.SPARE_EXCHANGE);
-        channel.exchangeDeclare(RabbitConfig.SPARE_EXCHANGE, BuiltinExchangeType.FANOUT, true, false, false, null);
-        channel.queueDeclare(RabbitConfig.SPARE_QUEUE, true, false, false, null);
-        channel.queueBind(RabbitConfig.SPARE_QUEUE, RabbitConfig.SPARE_EXCHANGE, "");
-
-        channel.exchangeDeclare(RabbitConfig.NO_QUEUE_EXCHANGE, BuiltinExchangeType.FANOUT, true, false, false, args);
-
-        String message = "Hello World!";
-        channel.basicPublish(RabbitConfig.NO_QUEUE_EXCHANGE, "confirm", true, false,
-                MessageProperties.PERSISTENT_BASIC, message.getBytes());
-        System.out.println(" [ Sent ] 消息内容 " + message);
 
         channel.close();
         connection.close();

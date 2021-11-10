@@ -4,10 +4,9 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.retry.ImmediateRequeueMessageRecoverer;
 import org.springframework.amqp.rabbit.retry.MessageRecoverer;
 import org.springframework.amqp.rabbit.retry.RepublishMessageRecoverer;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-@Configuration
+//@Configuration
 @EnableScheduling
 public class RetryRabbitConfig {
 
@@ -19,10 +18,11 @@ public class RetryRabbitConfig {
         return new ImmediateRequeueMessageRecoverer();
     }
 
+    //-------------------------------------------------------------------------------------------------
 
-    public static final String RETRY_QUEUE = "retry-error";
-    public static final String RETRY_EXCHANGE = "retry.exchange";
-    public static final String RETRY_KEY = "retry-key";
+    public static final String RETRY_FAILURE_QUEUE = "retry-failure-queue";
+    public static final String RETRY_FAILURE_EXCHANGE = "retry.failure.exchange";
+    public static final String RETRY_FAILURE_KEY = "retry.failure.key";
 
     /**
      * 消息重试5次以后直接以新的routingKey发送到了配置的交换机中，
@@ -30,7 +30,7 @@ public class RetryRabbitConfig {
      */
 //    @Bean
     public MessageRecoverer messageRecoverer(RabbitTemplate rabbitTemplate) {
-        return new RepublishMessageRecoverer(rabbitTemplate, RETRY_EXCHANGE, RETRY_KEY);
+        return new RepublishMessageRecoverer(rabbitTemplate, RETRY_FAILURE_EXCHANGE, RETRY_FAILURE_KEY);
     }
 
 }
