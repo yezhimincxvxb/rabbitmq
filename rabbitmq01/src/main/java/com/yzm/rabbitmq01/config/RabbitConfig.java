@@ -14,7 +14,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 public class RabbitConfig {
 
-    public static final String HELLO_WORLD = "hello-world";
+    public static final String HELLO_QUEUE = "hello.queue";
 
     /**
      * 消息队列
@@ -24,25 +24,19 @@ public class RabbitConfig {
      */
     @Bean
     public Queue helloQueue() {
-        return new Queue(HELLO_WORLD, true, false, false);
+        return new Queue(HELLO_QUEUE, true, false, false);
     }
 
     //------------------------------------------------------------------------------------------------------------------
 
-    public static final String WORK_QUEUE = "work-queue";
     public static final String PREFETCH_ONE = "prefetchOne";
 
-    @Bean
-    public Queue workQueue() {
-        return new Queue(WORK_QUEUE);
-    }
-
     @Bean(name = PREFETCH_ONE)
-    public RabbitListenerContainerFactory<SimpleMessageListenerContainer> prefetchOne(ConnectionFactory rabbitConnectionFactory) {
+    public RabbitListenerContainerFactory<SimpleMessageListenerContainer> prefetchOne(ConnectionFactory connectionFactory) {
         SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
-        factory.setConnectionFactory(rabbitConnectionFactory);
+        factory.setConnectionFactory(connectionFactory);
         // 手动确认
-        //factory.setAcknowledgeMode(AcknowledgeMode.MANUAL);
+        factory.setAcknowledgeMode(AcknowledgeMode.MANUAL);
         // 设置prefetch
         factory.setPrefetchCount(1);
         return factory;
