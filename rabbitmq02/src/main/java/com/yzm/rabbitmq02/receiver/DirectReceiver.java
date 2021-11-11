@@ -2,9 +2,8 @@ package com.yzm.rabbitmq02.receiver;
 
 import com.yzm.rabbitmq02.config.DirectRabbitConfig;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 public class DirectReceiver {
 
     private int countC = 1;

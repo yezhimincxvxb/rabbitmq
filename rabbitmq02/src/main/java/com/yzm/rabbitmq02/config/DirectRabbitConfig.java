@@ -2,10 +2,9 @@ package com.yzm.rabbitmq02.config;
 
 import org.springframework.amqp.core.*;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-@Configuration
+//@Configuration
 @EnableScheduling
 public class DirectRabbitConfig {
 

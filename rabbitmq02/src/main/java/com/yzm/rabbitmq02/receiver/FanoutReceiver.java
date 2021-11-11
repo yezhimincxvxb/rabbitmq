@@ -2,9 +2,8 @@ package com.yzm.rabbitmq02.receiver;
 
 import com.yzm.rabbitmq02.config.FanoutRabbitConfig;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 public class FanoutReceiver {
 
     private int countA = 1;

@@ -2,9 +2,8 @@ package com.yzm.rabbitmq02.receiver;
 
 import com.yzm.rabbitmq02.config.TopicRabbitConfig;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 public class TopicReceiver {
 
     private int countE = 1;

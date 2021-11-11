@@ -21,9 +21,9 @@ public class RabbitConfig {
     public static final String TOPIC_QUEUE_B = "topic-queue-b";
     public static final String TOPIC_QUEUE_C = "topic-queue-c";
 
-    public static final String NO_QUEUE_EXCHANGE = "no-queue-exchange";
-    public static final String SPARE_EXCHANGE = "spare-exchange";
-    public static final String SPARE_QUEUE = "spare-queue";
+    public static final String HEADER_EXCHANGE = "header-exchange-a";
+    public static final String HEADER_QUEUE_A = "header-queue-a";
+    public static final String HEADER_QUEUE_B = "header-queue-b";
 
     // 获取RabbitMQ服务器连接
     public static Connection getConnection() {

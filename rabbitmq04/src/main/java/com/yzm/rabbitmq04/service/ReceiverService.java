@@ -104,21 +104,21 @@ public class ReceiverService {
 
     //------------------------------------------------------------------------------------------------------------------
 
-    @Scheduled(fixedDelay = 60 * 60 * 1000, initialDelay = 10000)
+//    @Scheduled(fixedDelay = 60 * 60 * 1000, initialDelay = 10000)
     public void consumerD_1() throws IOException {
         Connection connection = RabbitConfig.getConnection();
         Channel channel = connection.createChannel();
         channel.basicConsume(RabbitConfig.TOPIC_QUEUE_A, true, consumer(channel, " [ received@D_1 ] 消息内容 : "));
     }
 
-    @Scheduled(fixedDelay = 60 * 60 * 1000, initialDelay = 10000)
+//    @Scheduled(fixedDelay = 60 * 60 * 1000, initialDelay = 10000)
     public void consumerD_2() throws IOException {
         Connection connection = RabbitConfig.getConnection();
         Channel channel = connection.createChannel();
         channel.basicConsume(RabbitConfig.TOPIC_QUEUE_B, true, consumer(channel, " [ received@D_2 ] 消息内容 : "));
     }
 
-    @Scheduled(fixedDelay = 60 * 60 * 1000, initialDelay = 10000)
+//    @Scheduled(fixedDelay = 60 * 60 * 1000, initialDelay = 10000)
     public void consumerD_3() throws IOException {
         Connection connection = RabbitConfig.getConnection();
         Channel channel = connection.createChannel();
@@ -132,6 +132,21 @@ public class ReceiverService {
                 System.out.println(s + new String(body, StandardCharsets.UTF_8) + "!");
             }
         };
+    }
+
+    //------------------------------------------------------------------------------------------------------------------
+    @Scheduled(fixedDelay = 60 * 60 * 1000, initialDelay = 10000)
+    public void consumerE_1() throws IOException {
+        Connection connection = RabbitConfig.getConnection();
+        Channel channel = connection.createChannel();
+        channel.basicConsume(RabbitConfig.HEADER_QUEUE_A, true, consumer(channel, " [ received@E_1 ] 消息内容 : "));
+    }
+
+    @Scheduled(fixedDelay = 60 * 60 * 1000, initialDelay = 10000)
+    public void consumerE_2() throws IOException {
+        Connection connection = RabbitConfig.getConnection();
+        Channel channel = connection.createChannel();
+        channel.basicConsume(RabbitConfig.HEADER_QUEUE_B, true, consumer(channel, " [ received@E_2 ] 消息内容 : "));
     }
 
 }

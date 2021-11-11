@@ -3,9 +3,8 @@ package com.yzm.rabbitmq02.sender;
 import com.yzm.rabbitmq02.config.TopicRabbitConfig;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 public class TopicSender {
 
     private final RabbitTemplate rabbitTemplate;

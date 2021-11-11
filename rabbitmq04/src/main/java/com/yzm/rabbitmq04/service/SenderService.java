@@ -1,14 +1,13 @@
 package com.yzm.rabbitmq04.service;
 
-import com.rabbitmq.client.BuiltinExchangeType;
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.Connection;
-import com.rabbitmq.client.MessageProperties;
+import com.rabbitmq.client.*;
 import com.yzm.rabbitmq04.config.RabbitConfig;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
 @Component
@@ -104,7 +103,7 @@ public class SenderService {
         connection.close();
     }
 
-    @Scheduled(fixedDelay = 60 * 60 * 1000, initialDelay = 5000)
+    //    @Scheduled(fixedDelay = 60 * 60 * 1000, initialDelay = 5000)
     public void producerD() throws IOException, TimeoutException {
         Connection connection = RabbitConfig.getConnection();
         Channel channel = connection.createChannel();
@@ -134,4 +133,48 @@ public class SenderService {
         channel.close();
         connection.close();
     }
+
+    @Scheduled(fixedDelay = 60 * 60 * 1000, initialDelay = 5000)
+    public void producerE() throws IOException, TimeoutException {
+        Connection connection = RabbitConfig.getConnection();
+        Channel channel = connection.createChannel();
+        /*
+         * 声明 header 交换机
+         */
+        channel.exchangeDeclare(RabbitConfig.HEADER_EXCHANGE, BuiltinExchangeType.HEADERS, true, false, false, null);
+        channel.queueDeclare(RabbitConfig.HEADER_QUEUE_A, true, false, false, null);
+        channel.queueDeclare(RabbitConfig.HEADER_QUEUE_B, true, false, false, null);
+
+        Map<String, Object> mapA = new HashMap<>();
+        mapA.put("x-match", "all"); // 完全匹配
+        mapA.put("key1", "value1");
+        mapA.put("name", "yzm");
+        channel.queueBind(RabbitConfig.HEADER_QUEUE_A, RabbitConfig.HEADER_EXCHANGE, "", mapA);
+
+        Map<String, Object> mapB = new HashMap<>();
+        mapB.put("x-match", "any"); // 匹配任意一个
+        mapB.put("name", "yzm");
+        channel.queueBind(RabbitConfig.HEADER_QUEUE_B, RabbitConfig.HEADER_EXCHANGE, "", mapB);
+
+        Map<String, Object> headersA = new HashMap<>();
+        headersA.put("key1", "value1");
+        headersA.put("name", "yzm");
+        AMQP.BasicProperties basicProperties = new AMQP.BasicProperties.Builder()
+                .headers(headersA)
+                .build();
+        System.out.println("生产者：该消息会被E_1和E_2打印");
+        channel.basicPublish(RabbitConfig.HEADER_EXCHANGE, "", basicProperties, "该消息会被E_1和E_2打印".getBytes());
+
+        Map<String, Object> headersB = new HashMap<>();
+        headersB.put("name", "yzm");
+        AMQP.BasicProperties basicPropertiesB = new AMQP.BasicProperties.Builder()
+                .headers(headersB)
+                .build();
+        System.out.println("生产者：该消息只会被E_2打印");
+        channel.basicPublish(RabbitConfig.HEADER_EXCHANGE, "", basicPropertiesB, "该消息只会被E_2打印".getBytes());
+
+        channel.close();
+        connection.close();
+    }
+
 }
