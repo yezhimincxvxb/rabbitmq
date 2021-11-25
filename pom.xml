@@ -18,8 +18,10 @@
     <description>Demo project for Spring Boot</description>
 
     <modules>
-        <module>rabbitmq01</module>
+        <module>rabbitmq_01</module>
         <module>rabbitmq02</module>
+        <module>rabbitmq_02</module>
+        <module>rabbitmq_03</module>
         <module>rabbitmq03</module>
         <module>rabbitmq04</module>
         <module>rabbitmq05</module>
