@@ -23,6 +23,7 @@
         <module>rabbitmq03</module>
         <module>rabbitmq04</module>
         <module>rabbitmq05</module>
+        <module>rabbitmq06</module>
     </modules>
 
     <properties>
