@@ -19,13 +19,17 @@
 
     <modules>
         <module>rabbitmq_01</module>
-        <module>rabbitmq02</module>
         <module>rabbitmq_02</module>
         <module>rabbitmq_03</module>
-        <module>rabbitmq03</module>
-        <module>rabbitmq04</module>
+        <module>rabbitmq_04</module>
+        <module>rabbitmq_05</module>
+        <module>rabbitmq_06</module>
+        <module>rabbitmq_07</module>
+        <module>rabbitmq_08</module>
+        <module>rabbitmq_09</module>
+        <module>rabbitmq_10</module>
+        <module>rabbitmq_11</module>
         <module>rabbitmq05</module>
-        <module>rabbitmq06</module>
     </modules>
 
     <properties>
