@@ -29,7 +29,6 @@
         <module>rabbitmq_09</module>
         <module>rabbitmq_10</module>
         <module>rabbitmq_11</module>
-        <module>rabbitmq05</module>
     </modules>
 
     <properties>
